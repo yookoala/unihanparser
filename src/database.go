@@ -51,6 +51,10 @@ func (uni *UnihanDB) Open() (err error) {
 }
 
 func (uni *UnihanDB) Close() (err error) {
-	uni.DB.Close()
+	defer uni.DB.Close()
+	_, err = uni.DB.Exec("vacuum")
+	if err != nil {
+		panic(err)
+	}
 	return nil
 }
