@@ -3,7 +3,9 @@ package main
 import (
 	"bufio"
 	"bytes"
+	"fmt"
 	"io"
+	"log"
 	"os"
 	"strings"
 )
@@ -40,21 +42,40 @@ func readLines(path string) (lines []string, err error) {
 	return
 }
 
-func parseLines(lines []string) (items [][]string) {
-	items = make([][]string, len(lines))
-	for i, line := range lines {
-		items[i] = make([]string, 3)
-		items[i] = strings.Split(line, "\t")
-	}
-	return
+func parseLine(line string) (item UnihanDataEntry, err error) {
+	item = make([]string, 3)
+	item = strings.Split(line, "\t")
+	return item, nil
 }
 
-func main() {
-	lines, err := readLines("./Unihan-6.1/Unihan_IRGSources.txt")
+func parseUnihanFile(filename string, handlerName string, db *UnihanDB) {
+	tx, err := db.DB.Begin()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer tx.Commit()
+	lines, err := readLines(filename)
 	if err != nil {
 		panic(err)
 	}
-	items := parseLines(lines)
+	for _, line := range lines {
+		item, err := parseLine(line)
+		if err != nil {
+			panic(err)
+		}
+		err = db.Insert(handlerName, tx, item)
+		if err != nil {
+			panic(err)
+		}
+		fmt.Printf("%#v\n", item)
+	}
+}
 
-	print(items[0][0])
+func main() {
+	dir := "./data/Unihan-6.1"
+	db := UnihanDB{
+		Filename: "./data/unihan.db",
+	}
+	db.Register("Variants", VariantsHandler{})
+	parseUnihanFile(dir+"/Unihan_Variants.txt", "Variants", &db)
 }
