@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"bytes"
-	"fmt"
 	"io"
 	"log"
 	"os"
@@ -67,7 +66,6 @@ func parseUnihanFile(filename string, handlerName string, db *UnihanDB) {
 		if err != nil {
 			panic(err)
 		}
-		fmt.Printf("%#v\n", item)
 	}
 }
 
