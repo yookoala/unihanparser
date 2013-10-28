@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"bytes"
+	"errors"
 	"io"
 	"log"
 	"os"
@@ -74,5 +75,37 @@ func hexToString(h string) (string, error) {
 	return strconv.Unquote(`"\u` + h + `"`)
 }
 
+type unihanValue struct {
+	Value  string
+	Remark string
+}
 
+/**
+ * parse a Unihan database value field into a struct
+ * represents the semantic values in it
+ */
+func parseUnihanValues(valueStr string) (returnVars []unihanValue, err error) {
 
+	// split the value filed into values
+	values := strings.Split(valueStr, " ")
+	returnVars = make([]unihanValue, len(values), cap(values))
+
+	// loop through values and parse
+	for key, value := range values {
+		fields := strings.Split(value, "<")
+		if len(fields) == 0 {
+			err = errors.New("Empty value")
+			return
+		} else if len(fields) == 1 {
+			returnVars[key] = unihanValue{
+				Value: fields[0],
+			}
+		} else {
+			returnVars[key] = unihanValue{
+				Value:  fields[0],
+				Remark: fields[1],
+			}
+		}
+	}
+	return
+}
