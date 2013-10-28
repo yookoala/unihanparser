@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	_ "github.com/mattn/go-sqlite3"
 	"log"
+	"strings"
 )
 
 type UnihanDataEntry []string
@@ -54,6 +55,28 @@ func (h VariantsHandler) Insert(tx *sql.Tx, item UnihanDataEntry) (err error) {
 		log.Fatal(err)
 	}
 	defer stmt.Close()
-	_, err = stmt.Exec(item[0], item[0], item[1], item[2], item[2], item[2])
+
+	// turn a given unicode into character
+	character, err := hexToString(item[0][2:])
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// read the unihan values
+	item[2] = strings.Trim(item[2], " ")
+	unihanVars, err := parseUnihanValues(item[2])
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// loop through all values
+	for _, unihanVar := range unihanVars {
+		// turn a given unicode into variant_character
+		variant_character, err := hexToString(unihanVar.Value[2:])
+		if err != nil {
+			log.Fatal(err)
+		}
+		_, err = stmt.Exec(item[0], character, item[1], unihanVar.Value, variant_character, unihanVar.Remark)
+	}
 	return
 }
