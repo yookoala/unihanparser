@@ -3,7 +3,7 @@ package main
 import ()
 
 func main() {
-	dir := "./data/Unihan-6.1"
+	dir := "./data/Unihan-6.3"
 	db := UnihanDB{
 		Filename: "./data/unihan.db",
 	}
