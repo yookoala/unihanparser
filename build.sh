@@ -2,6 +2,7 @@
 
 BASE_DIR=$(dirname "$(readlink -f $0)")
 SRC_DIR="$BASE_DIR/src"
+UNIHAN_DIR="$BASE_DIR/data/Unihan-6.3"
 DB_PATH="$BASE_DIR/data/unihan.db"
 
 # check dependencies and try to fix
@@ -40,7 +41,7 @@ fi
 # build the database
 echo -ne "build the database ... "
 cd ..
-./parseUnihan
+./parseUnihan -f "$UNIHAN_DIR" -d "$DB_DIR"
 RET=$?
 if [ $RET -eq 0 ]; then
   echo "Success"
