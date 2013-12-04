@@ -7,6 +7,10 @@ func main() {
 	db := UnihanDB{
 		Filename: "./data/unihan.db",
 	}
+
 	db.Register("Variants", VariantsHandler{})
+	db.Register("DictionaryLikeData", DictionaryLikeDataHandler{})
+
 	parseUnihanFile(dir+"/Unihan_Variants.txt", "Variants", &db)
+	parseUnihanFile(dir+"/Unihan_DictionaryLikeData.txt", "DictionaryLikeData", &db)
 }
