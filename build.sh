@@ -41,7 +41,7 @@ fi
 # build the database
 echo -ne "build the database ... "
 cd ..
-./parseUnihan -f "$UNIHAN_DIR" -d "$DB_DIR"
+./parseUnihan -f "$UNIHAN_DIR" -d "$DB_PATH"
 RET=$?
 if [ $RET -eq 0 ]; then
   echo "Success"
