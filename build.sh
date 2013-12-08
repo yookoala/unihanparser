@@ -2,7 +2,7 @@
 
 BASE_DIR=$(dirname "$(readlink -f $0)")
 SRC_DIR="$BASE_DIR/src"
-UNIHAN_DIR="$BASE_DIR/data/Unihan-6.3"
+UNIHAN_DIR="$BASE_DIR/data/Unihan"
 DB_PATH="$BASE_DIR/data/unihan.db"
 
 # check dependencies and try to fix
