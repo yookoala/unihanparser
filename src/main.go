@@ -28,13 +28,19 @@ func main() {
 		Filename: dbfn,
 	}
 
-	db.Register("Variants", VariantsHandler{})
+	db.Register("DictionaryIndices", GenericDataHandler{TableName: "DictionaryIndices"})
 	db.Register("DictionaryLikeData", GenericDataHandler{TableName: "DictionaryLikeData"})
-	db.Register("OtherMappings", GenericDataHandler{TableName: "OtherMappings"})
 	db.Register("IRGSources", GenericDataHandler{TableName: "IRGSources"})
+	db.Register("NumericValues", GenericDataHandler{TableName: "NumericValues"})
+	db.Register("OtherMappings", GenericDataHandler{TableName: "OtherMappings"})
+	db.Register("Readings", GenericDataHandler{TableName: "Readings"})
+	db.Register("Variants", VariantsHandler{})
 
-	parseUnihanFile(dir+"/Unihan_Variants.txt", "Variants", &db)
+	parseUnihanFile(dir+"/Unihan_DictionaryIndices.txt", "DictionaryIndices", &db)
 	parseUnihanFile(dir+"/Unihan_DictionaryLikeData.txt", "DictionaryLikeData", &db)
-	parseUnihanFile(dir+"/Unihan_OtherMappings.txt", "OtherMappings", &db)
 	parseUnihanFile(dir+"/Unihan_IRGSources.txt", "IRGSources", &db)
+	parseUnihanFile(dir+"/Unihan_NumericValues.txt", "NumericValues", &db)
+	parseUnihanFile(dir+"/Unihan_OtherMappings.txt", "OtherMappings", &db)
+	parseUnihanFile(dir+"/Unihan_Readings.txt", "Readings", &db)
+	parseUnihanFile(dir+"/Unihan_Variants.txt", "Variants", &db)
 }
