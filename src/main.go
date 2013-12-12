@@ -31,8 +31,10 @@ func main() {
 	db.Register("Variants", VariantsHandler{})
 	db.Register("DictionaryLikeData", GenericDataHandler{TableName: "DictionaryLikeData"})
 	db.Register("OtherMappings", GenericDataHandler{TableName: "OtherMappings"})
+	db.Register("IRGSources", GenericDataHandler{TableName: "IRGSources"})
 
 	parseUnihanFile(dir+"/Unihan_Variants.txt", "Variants", &db)
 	parseUnihanFile(dir+"/Unihan_DictionaryLikeData.txt", "DictionaryLikeData", &db)
 	parseUnihanFile(dir+"/Unihan_OtherMappings.txt", "OtherMappings", &db)
+	parseUnihanFile(dir+"/Unihan_IRGSources.txt", "IRGSources", &db)
 }
