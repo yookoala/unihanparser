@@ -81,6 +81,63 @@ func (h VariantsHandler) Insert(tx *sql.Tx, item UnihanDataEntry) (err error) {
 	return
 }
 
+// hander for the Unihan_RadicalStrokeCounts.txt
+type RadicalStrokeCountsHandler struct {
+}
+
+func (h RadicalStrokeCountsHandler) Init(uni *UnihanDB) (err error) {
+	query := `
+		CREATE TABLE IF NOT EXISTS RadicalStrokeCounts (
+			id INTEGER PRIMARY KEY,
+			unicode TEXT,
+			character TEXT,
+			type TEXT,
+			data TEXT
+		)
+	`
+	_, err = uni.DB.Exec(query)
+
+	return
+}
+
+func (h RadicalStrokeCountsHandler) ParseLine(line string) (item UnihanDataEntry, err error) {
+	return parseLine(line)
+}
+
+func (h RadicalStrokeCountsHandler) Insert(tx *sql.Tx, item UnihanDataEntry) (err error) {
+	stmt, err := tx.Prepare(`INSERT INTO RadicalStrokeCounts (
+		unicode,
+		character,
+		type,
+		data
+	) VALUES (
+		?, ?, ?, ?
+	)`)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer stmt.Close()
+
+	// turn a given unicode into character
+	character, err := hexToString(item[0][2:])
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// read the unihan values
+	item[2] = strings.Trim(item[2], " ")
+	unihanVars, err := parseUnihanValues(item[2])
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// loop through all values
+	for _, unihanVar := range unihanVars {
+		_, err = stmt.Exec(item[0], character, item[1], unihanVar.Value)
+	}
+	return
+}
+
 // hander for the generic Unihan data files
 type GenericDataHandler struct {
 	TableName string

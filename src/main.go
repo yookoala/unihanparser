@@ -33,6 +33,7 @@ func main() {
 	db.Register("IRGSources", GenericDataHandler{TableName: "IRGSources"})
 	db.Register("NumericValues", GenericDataHandler{TableName: "NumericValues"})
 	db.Register("OtherMappings", GenericDataHandler{TableName: "OtherMappings"})
+	db.Register("RadicalStrokeCounts", RadicalStrokeCountsHandler{})
 	db.Register("Readings", GenericDataHandler{TableName: "Readings"})
 	db.Register("Variants", VariantsHandler{})
 
@@ -41,6 +42,7 @@ func main() {
 	parseUnihanFile(dir+"/Unihan_IRGSources.txt", "IRGSources", &db)
 	parseUnihanFile(dir+"/Unihan_NumericValues.txt", "NumericValues", &db)
 	parseUnihanFile(dir+"/Unihan_OtherMappings.txt", "OtherMappings", &db)
+	parseUnihanFile(dir+"/Unihan_RadicalStrokeCounts.txt", "RadicalStrokeCounts", &db)
 	parseUnihanFile(dir+"/Unihan_Readings.txt", "Readings", &db)
 	parseUnihanFile(dir+"/Unihan_Variants.txt", "Variants", &db)
 }
