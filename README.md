@@ -28,7 +28,7 @@ Build the Tool and Database
 
     <code>./build.sh</code>
 
-  And things will be handled for you.
+  And things will be handled for you. A sqlite database file "unihan.db" will be generated in the "data" folder.
 
 
 ***
