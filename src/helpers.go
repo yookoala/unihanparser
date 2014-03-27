@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"errors"
+	"fmt"
 	"io"
 	"log"
 	"os"
@@ -72,7 +73,8 @@ func parseUnihanFile(filename string, handlerName string, db *UnihanDB) {
 }
 
 func hexToString(h string) (string, error) {
-	return strconv.Unquote(`"\u` + h + `"`)
+	return strconv.Unquote(`"\U` +
+		fmt.Sprintf("%08s", h) + `"`)
 }
 
 type unihanValue struct {
