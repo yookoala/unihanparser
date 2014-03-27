@@ -22,7 +22,7 @@ Dependencies
 Build the Tool and Database
 ---------------------------
 
-  1. Unihan database is not included in the tool. Please download the database (version 6+) from [their official website](http://www.unicode.org/reports/tr38/). Then extract and save all the ``*.txt`` files into ``data/Unihan``. 
+  1. Unihan database is not included in the tool. Please download the database (version 6+) from [their official website](http://www.unicode.org/reports/tr38/) (usually at [this URL](http://www.unicode.org/Public/UCD/latest/ucd/Unihan.zip). Then extract and save all the ``*.txt`` files into ``data/Unihan``. 
 
   2. This software comes with a build script (build.sh). To build the commandline tool and the database, just run the build script in the same folder as this file is placed:
 
